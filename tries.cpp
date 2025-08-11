@@ -114,12 +114,40 @@ bool Trie::prefix_search(string prefix) {
     return true;
 }
 
+//check for children helper function
+bool Trie::node_has_children(trie_node* node) {
+    for(int i = 0; i < 26; i++) {
+        //trace all possible paths for children
+        if(node->letters[i] != nullptr) {
+            return true;
+        }
+    }
+    return false;
+}
+
 //remove helper function
 bool Trie::remove_helper(trie_node* root, const string& word, int index) {
     if(index == word.length()) {
         root->end_of_word = false;
-        return true;
+        return (!node_has_children(root));
     }
+
+    char current_letter = word[index];
+    int letter_index = current_letter - 'a';
+
+    //if path does not exist
+    if(root->letters[letter_index] == nullptr) {
+        return false;
+    }
+    //check if safe to remove
+    bool can_delete_child = remove_helper(root->letters[letter_index], word, index + 1);
+
+    if(can_delete_child) {
+        delete root->letters[letter_index];
+        root->letters[letter_index] = nullptr;
+    }
+    //can only delete if no children and not the end of another word
+    return (!node_has_children(root)) && (!root->end_of_word);
 }
 
 //remove word function

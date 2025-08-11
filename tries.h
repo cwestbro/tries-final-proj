@@ -18,6 +18,8 @@ class Trie {
     void delete_Trie(trie_node* node);
     //remove helper function
     bool remove_helper(trie_node* node, const string& word, int index);
+    //check for children helper function
+    bool node_has_children(trie_node* node);
     
     public:
     //constructor
