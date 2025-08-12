@@ -162,7 +162,9 @@ bool Trie::remove(string word) {
         return false;
     }
 
-    return remove_helper(root, word, 0);
+    remove_helper(root, word, 0);
+    //word deleted, return true
+    return true;
 }
 
 // __________________________________________________ //
@@ -183,12 +185,13 @@ int Trie::word_instances(const string& filename, const string& word) {
         //read through the file line by line, word by word
         while(ss >> current_word) {
             //increment count if a match is found
-            if(search(current_word) && current_word == word) {
+            if(current_word == word) {
                 count ++;
             }
         }
     }
     text.close();
+    //return the word and number of instances
     cout << word << ": " << count;
     return count;
 }
