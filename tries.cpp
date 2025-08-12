@@ -163,6 +163,54 @@ bool Trie::remove(string word) {
     }
 
     return remove_helper(root, word, 0);
-    
 }
 
+// __________________________________________________ //
+
+//count instances of a given word
+int Trie::word_instances(const string& filename, const string& word) {
+    //open and read a text file
+    ifstream text(filename);
+
+    //instance count
+    int count = 0;
+    string line;
+
+    while(getline(text, line)) {
+        stringstream ss(line);
+        string current_word;
+
+        //read through the file line by line, word by word
+        while(ss >> current_word) {
+            //increment count if a match is found
+            if(search(current_word) && current_word == word) {
+                count ++;
+            }
+        }
+    }
+    text.close();
+    cout << word << ": " << count;
+    return count;
+}
+
+//replace all instances of a given word
+void Trie::replace_all(const string& input_file, const string& output_file,
+const string& old_word, const string& new_word) {
+    ifstream original_text(input_file);
+    ofstream new_text(output_file);
+
+    string line;
+    while(getline(original_text, line)) {
+        stringstream ss(line);
+        string current_word;
+
+        string new_line;
+        while(ss >> current_word) {
+            if(current_word == old_word) {
+                current_word = new_word;
+            }
+            new_line += current_word + " ";
+        }
+        new_text << new_line << endl;
+    }
+}
