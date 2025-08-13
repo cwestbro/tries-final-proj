@@ -38,6 +38,8 @@ void Trie::delete_Trie(trie_node* node) {
     delete node;
 }
 
+// core functions //
+
 //insert word function
 bool Trie::insert(string word) {
     trie_node* current = root;
@@ -167,10 +169,10 @@ bool Trie::remove(string word) {
     return true;
 }
 
-// __________________________________________________ //
+// other functions //
 
 //count instances of a given word
-int Trie::word_instances(const string& filename, const string& word) {
+void Trie::word_instances(const string& filename, const string& word) {
     //open and read a text file
     ifstream text(filename);
 
@@ -191,12 +193,11 @@ int Trie::word_instances(const string& filename, const string& word) {
         }
     }
     text.close();
-    //return the word and number of instances
-    cout << word << ": " << count;
-    return count;
+    //return the number of instances
+    cout << word << ": " << count << endl;
 }
 
-//replace all instances of a given word
+//replace all instances of a given word (uses exact matching)
 void Trie::replace_all(const string& input_file, const string& output_file,
 const string& old_word, const string& new_word) {
     ifstream original_text(input_file);
